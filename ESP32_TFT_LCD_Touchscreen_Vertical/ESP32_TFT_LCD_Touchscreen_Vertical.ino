@@ -31,11 +31,11 @@ void drawMainUI() {
 }
 
 void drawButtons() {
-  tft.fillRect(40, 180, 55, 30, ILI9341_RED);
-  tft.fillRect(90, 180, 55, 30, ILI9341_GREEN);
+  tft.fillRect(40, 240, 55, 30, ILI9341_RED);
+  tft.fillRect(140, 240, 55, 30, ILI9341_GREEN);
 
-  write_heading("-", 50, 250, 2, ILI9341_WHITE);
-  write_heading("+", 100, 250, 2, ILI9341_WHITE);
+  write_heading("-", 60, 260, 2, ILI9341_WHITE);
+  write_heading("+", 160, 260, 2, ILI9341_WHITE);
 }
 
 void adjustCFM() {
@@ -448,14 +448,14 @@ void loop() {
       }
     } else if (currentPage == "temp") {
       if (x > 15 && x < 75 && y > 20 && y < 55) { drawHomePage(); }
-      if (x > 95 && x < 146 && y > 185 && y < 210) {
+      if (x > 65 && x < 135 && y > 180 && y < 200) {
         Serial.println("Minus button hit");
         if (temperature > 5) {
           temperature--;
           draw_temp();
           sendUpdate();
         }
-      } else if (x > 195 && x < 245 && y > 185 && y < 210) {
+      } else if (x > 200 && x < 270 && y > 180 && y < 200) {
         Serial.println("Plus button hit");
         if (temperature < 35) {
           temperature++;
