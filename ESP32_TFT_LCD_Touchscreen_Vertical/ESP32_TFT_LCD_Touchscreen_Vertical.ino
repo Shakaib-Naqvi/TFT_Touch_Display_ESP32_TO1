@@ -14,10 +14,19 @@
 
 #include "variables.h"
 
+void draw_border(uint16_t color, uint8_t thickness = 2) {
+  tft.fillRect(0, 0, 240, thickness, color);
+  tft.fillRect(0, 320 - thickness, 240, thickness, color);
+  tft.fillRect(0, 0, thickness, 320, color);
+  tft.fillRect(240 - thickness, 0, thickness, 320, color);
+}
 
 void drawMainUI() {
 
+
   tft.fillScreen(ILI9341_BLACK);
+
+  draw_border(ILI9341_WHITE, 4);
 
   // tft.drawBitmap(120, 10, myBitmap_2, 64, 64, ILI9341_WHITE);
 
@@ -114,19 +123,21 @@ void draw_temp() {
   Serial.println("Temp Page");
   tft.fillScreen(ILI9341_DARKBROWN);
 
-  write_heading("Temperature", 100, 45, 2, ILI9341_LIGHTGREY);
-  write_heading(String(temp), 145, 95, 4, ILI9341_CYAN);
-  write_small_text("o", 178, 70, 1, ILI9341_CYAN);
-  write_heading("C", 190, 95, 3, ILI9341_CYAN);
+  draw_border(ILI9341_WHITE, 4);
+
+  write_heading("Temperature", 100 - 50, 45 + 40, 2, ILI9341_LIGHTGREY);
+  write_heading(String(temp), 145 - 50, 95 + 40, 4, ILI9341_CYAN);
+  write_small_text("o", 178 - 50, 70 + 40, 1, ILI9341_CYAN);
+  write_heading("C", 190 - 50, 95 + 40, 3, ILI9341_CYAN);
 
 
-  write_heading("Setpoint", 120, 130, 2, ILI9341_LIGHTGREY);
-  write_heading(String(temperature), 145, 175, 4, ILI9341_CYAN);
-  write_small_text("o", 178, 150, 1, ILI9341_CYAN);
-  write_heading("C", 190, 175, 3, ILI9341_CYAN);
+  write_heading("Setpoint", 120 - 50, 130 + 40, 2, ILI9341_LIGHTGREY);
+  write_heading(String(temperature), 145 - 50, 175 + 40, 4, ILI9341_CYAN);
+  write_small_text("o", 178 - 50, 150 + 40, 1, ILI9341_CYAN);
+  write_heading("C", 190 - 50, 175 + 40, 3, ILI9341_CYAN);
 
   tft.fillRoundRect(10, 20, 70, 30, 5, ILI9341_DARKGREEN);
-  write_text("Back", 20, 42, 2, ILI9341_WHITE);
+  write_text("Back", 22, 41, 2, ILI9341_WHITE);
 
   drawButtons();
 }
@@ -140,6 +151,8 @@ void drawHomePage() {
   Serial.println("Home Page");
   // tft.fillScreen(ILI9341_BLACK);
   tft.fillScreen(ILI9341_DARKBROWN);
+
+  draw_border(ILI9341_WHITE, 4);
 
   tft.drawRoundRect(0, 0, tft.width(), 40, 10, ILI9341_BLUE);
   tft.fillRoundRect(1, 1, tft.width() - 2, 38, 9, ILI9341_DARKGREY);
@@ -325,10 +338,12 @@ void handle_wifi_touch() {
       selectedNetwork = scrollOffset + i;
       draw_wifi_list();
       delay(300);
-      device_name = ssidList[selectedNetwork];
-      Serial.print("Connecting to ");
-      Serial.println(device_name);
-      connect_to_wifi(ssidList[selectedNetwork]);
+      if (totalNetworks > 0) {
+        device_name = ssidList[selectedNetwork];
+        Serial.print("Connecting to ");
+        Serial.println(device_name);
+        connect_to_wifi(ssidList[selectedNetwork]);
+      }
       return;
     }
   }
@@ -339,6 +354,9 @@ void scan_wifi() {
   Serial.println("Scan Wifi Page");
 
   tft.fillScreen(ILI9341_BLACK);
+
+  draw_border(ILI9341_WHITE, 4);
+
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   wifi_connected = false;
